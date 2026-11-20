@@ -16,6 +16,28 @@ class Obstacle(ABC):
     def distance_and_closest_point(self, robot_pos: tuple[float, float], robot_radius: float) -> tuple[float, tuple[float, float], tuple[float, float]]:
         pass
 
+class CircleObstacle(Obstacle):
+    def __init__(self, x: float, y: float, r: float, is_virtual: bool = False):
+        super().__init__(is_virtual)
+        self.center = (x, y)
+        self.radius = r
+
+    @property
+    def center(self) -> tuple[float, float]:
+        return self._center
+
+    @center.setter
+    def center(self, center: tuple[float, float]) -> None:
+        self._center = center
+
+    @property
+    def radius(self) -> float:
+        return self._radius
+
+    @radius.setter
+    def radius(self, radius: float) -> None:
+        self._radius = radius
+
 class Enviroment:
     def __init__(self, width: float, height: float, goal_x: float, goal_y: float):
         self.width = width
