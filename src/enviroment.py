@@ -21,6 +21,8 @@ class Enviroment:
         self.width = width
         self.height = height
         self.goal = (goal_x, goal_y)
+        self._static_obstacles: list[Obstacle] = []
+        self._virtual_obstacles: list[Obstacle] = []
         self.static_obstacles = []
         self.virtual_obstacles = []
 
@@ -45,8 +47,31 @@ class Enviroment:
         return self._goal
 
     @goal.setter
-    def goal(self, x: float, y: float) -> None:
-        self._goal = (x, y)
+    def goal(self, goal: tuple[float, float]) -> None:
+        self._goal = goal
 
+    @property
+    def static_obstacles(self) -> list[Obstacle]:
+        return self._static_obstacles
 
-    
+    @static_obstacles.setter
+    def static_obstacles(self, obstacles: list[Obstacle] | tuple[Obstacle, ...]) -> None:
+        self._static_obstacles.clear()
+        for obstacle in obstacles:
+            self.add_static_obstacle(obstacle)
+
+    def add_static_obstacle(self, obstacle: Obstacle) -> None:
+        self._static_obstacles.append(obstacle)
+
+    @property
+    def virtual_obstacles(self) -> list[Obstacle]:
+        return self._virtual_obstacles
+
+    @virtual_obstacles.setter
+    def virtual_obstacles(self, obstacles: list[Obstacle] | tuple[Obstacle, ...]) -> None:
+        self._virtual_obstacles.clear()
+        for obstacle in obstacles:
+            self.add_virtual_obstacle(obstacle)
+
+    def add_virtual_obstacle(self, obstacle: Obstacle) -> None:
+        self._virtual_obstacles.append(obstacle)
