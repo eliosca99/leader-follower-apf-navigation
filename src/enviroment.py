@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from math import pow, sqrt
 
 class Obstacle(ABC):
     def __init__(self, is_virtual: bool = False):
@@ -38,6 +39,16 @@ class CircleObstacle(Obstacle):
     def radius(self, radius: float) -> None:
         self._radius = radius
 
+    def distance_and_closest_point(self, robot_pos: tuple[float, float], robot_radius: float) -> tuple[float, tuple[float, float], tuple[float, float]]:
+        # funzione che restituisce, dato posizione e raggio del robot, la distanza del robot dall'ostacolo, il versore e il punto piu vicino
+        # distanza, calcolata come distanza tra centro robot e centro ostacolo a cui vengono sottratti i raggi
+        centers_distance = sqrt(pow((robot_pos[0] - self.center[0]), 2) + pow((robot_pos[1] - self.center[1]), 2))
+        distance = centers_distance - self.radius - robot_radius
+        verser = ((robot_pos[0] - self.center[0]) / centers_distance, (robot_pos[1] - self.center[1]) / centers_distance)
+        closest_point = (self.center[0] + (self.radius * verser[0]), self.center[1] + (self.radius * verser[1]))
+
+        return (distance, verser, closest_point)
+ 
 class Enviroment:
     def __init__(self, width: float, height: float, goal_x: float, goal_y: float):
         self.width = width
