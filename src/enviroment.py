@@ -49,6 +49,32 @@ class CircleObstacle(Obstacle):
 
         return (distance, verser, closest_point)
  
+class WallObstacle(Obstacle): 
+    def __init__(self, width: float, height: float, is_virtual = False):
+        super().__init__(is_virtual)
+        self.width = width
+        self.height = height
+
+    @property
+    def width(self) -> float:
+        return self._width
+
+    @width.setter
+    def width(self, w: float) -> None:
+        self._width = w
+
+    @property
+    def height(self) -> float:
+        return self._height
+
+    @height.setter
+    def height(self, h: float) -> None: 
+        self._height = h
+
+    def distance_and_closest_point(self, robot_pos, robot_radius):
+        
+
+
 class Enviroment:
     def __init__(self, width: float, height: float, goal_x: float, goal_y: float):
         self.width = width
